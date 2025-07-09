@@ -1,0 +1,38 @@
+server:
+  port: 8848
+spring:
+  application:
+    name: service-mytest
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      auto-offset-reset: earliest
+      group-id: my-group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    listener:
+      ack-mode: manual
+# trace
+management:
+  tracing:
+    enabled: true
+    include: "*"
+    sampling:
+      probability: 1
+    propagation:
+      type: W3C
+  # 启用原生镜像优化提示
+  aot:
+    enabled: true
+  # 设置预期内存配置（影响GC行为）
+  native:
+    memory:
+      initial: 32m
+      max: 256m
+logging:
+  level:
+    io.micrometer.tracing: DEBUG
+    org.springframework.web.filter.CompositeFilter: TRACE
